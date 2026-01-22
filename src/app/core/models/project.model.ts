@@ -5,11 +5,13 @@ export interface Project {
   shortDescription: string;
   technologies: string[];
   imageUrl: string;
+  gallery: string[];
   liveUrl?: string;
   githubUrl?: string;
   featured: boolean;
   category: ProjectCategory;
   year: number;
+  highlights?: string[];
 }
 
 export type ProjectCategory = 'web' | 'mobile' | 'backend' | 'fullstack' | 'devops';

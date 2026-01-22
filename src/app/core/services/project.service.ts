@@ -12,75 +12,117 @@ export class ProjectService implements IProjectService {
   private readonly projects: Project[] = [
     {
       id: '1',
-      title: 'E-Commerce Platform',
-      shortDescription: 'Skalierbare E-Commerce Lösung mit Microservices-Architektur',
-      description: 'Eine vollständige E-Commerce Plattform mit modernem Tech-Stack. Implementiert wurden Warenkorb, Checkout, Zahlungsabwicklung und Admin-Dashboard. Die Architektur basiert auf Microservices für maximale Skalierbarkeit.',
-      technologies: ['Angular', 'Node.js', 'PostgreSQL', 'Docker', 'Kubernetes', 'Stripe'],
-      imageUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800',
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com',
+      title: 'Gastro Depot Worms',
+      shortDescription: 'Webanwendung inkl. Online-Shop mit Kassensystem-Integration und Flottentracking',
+      description: 'Entwicklung einer umfassenden Webanwendung inkl. Online-Shop für Gastro Depot Worms. Das System wurde nahtlos in bestehende Kassensysteme via orgaMAX PHP-Schnittstelle integriert. Ein Flottentracking-System via OBD ermöglicht Echtzeit-Überwachung der Lieferfahrzeuge, während intelligente Routenoptimierung für effizientere Lieferwege sorgt.',
+      technologies: ['Angular', 'PHP', 'orgaMAX API', 'OBD Integration', 'MySQL', 'Google Maps API'],
+      imageUrl: 'assets/images/project-images/portfolio_gastro_1.png',
+      gallery: [
+        'assets/images/project-images/portfolio_gastro_1.png',
+        'assets/images/project-images/portfolio_gastro_2.png',
+        'assets/images/project-images/portfolio_gastro_3.png',
+        'assets/images/project-images/portfolio_gastro_4.png',
+        'assets/images/project-images/portfolio_gastro_5.png',
+        'assets/images/project-images/portfolio_gastro_6.png'
+      ],
       featured: true,
       category: 'fullstack',
-      year: 2025
+      year: 2024,
+      highlights: [
+        'Schnellere Lieferungen durch automatisierte Prozesse',
+        'Optimierte Lieferwege durch intelligente Routenplanung',
+        'Echtzeit-Flottentracking via OBD',
+        'Nahtlose Kassensystem-Integration'
+      ]
     },
     {
       id: '2',
-      title: 'Real-Time Analytics Dashboard',
-      shortDescription: 'Interaktives Dashboard für Business Intelligence',
-      description: 'Ein leistungsstarkes Analytics-Dashboard mit Echtzeit-Datenvisualisierung. WebSocket-Integration für Live-Updates, komplexe Chartings und exportierbare Reports.',
-      technologies: ['Angular', 'D3.js', 'WebSockets', 'Python', 'FastAPI', 'Redis'],
-      imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
-      liveUrl: 'https://example.com',
+      title: 'Romed Kliniken',
+      shortDescription: 'Upload & Analyse von Stationsdateien mit automatisiertem Compliance-Export',
+      description: 'Webanwendung für Upload und Analyse von Stationsdateien aus verschiedenen Bereichen der Romed Kliniken. Das System ermöglicht automatisierte Exporte für gesetzliche Meldungen (PPUG, PPBV) und sichert damit die Compliance. Durch die Automatisierung wurde der Verwaltungsaufwand um ca. 50% reduziert.',
+      technologies: ['Angular', 'Node.js', 'PostgreSQL', 'Express', 'PDF Generation', 'Excel Export'],
+      imageUrl: 'assets/images/project-images/portfolio_romed_1.png',
+      gallery: [
+        'assets/images/project-images/portfolio_romed_1.png',
+        'assets/images/project-images/portfolio_romed_2.png',
+        'assets/images/project-images/portfolio_romed_3.png'
+      ],
       featured: true,
-      category: 'web',
-      year: 2025
+      category: 'fullstack',
+      year: 2024,
+      highlights: [
+        'Ca. 50% Reduktion des Verwaltungsaufwands',
+        'Automatisierte PPUG/PPBV-Meldungen',
+        'Compliance-Sicherung durch standardisierte Prozesse',
+        'Multi-Bereich-Datenanalyse'
+      ]
     },
     {
       id: '3',
-      title: 'Mobile Banking App',
-      shortDescription: 'Sichere Mobile-First Banking Anwendung',
-      description: 'Native mobile App für Banking mit biometrischer Authentifizierung, Transaktionshistorie, QR-Code Zahlungen und Push-Benachrichtigungen.',
-      technologies: ['React Native', 'TypeScript', 'Node.js', 'MongoDB', 'Firebase'],
-      imageUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800',
-      githubUrl: 'https://github.com',
+      title: 'Wonder Stories',
+      shortDescription: 'KI-basierte Kindergeschichten-App mit Audio-to-Audio Personalisierung',
+      description: 'Entwicklung einer innovativen KI-basierten Kindergeschichten-App für App Store & Google Play. Das Herzstück ist eine Audio-to-Audio KI, die Geschichten als gesprochene Audiodateien verarbeiten, verändern und personalisieren kann. Die App ermöglicht es Eltern und Kindern, einzigartige, interaktive Audioinhalte zu erstellen.',
+      technologies: ['React Native', 'TypeScript', 'AI/ML', 'Audio Processing', 'Firebase', 'Node.js'],
+      imageUrl: 'assets/images/project-images/portfolio_wonderstories_1.png',
+      gallery: [
+        'assets/images/project-images/portfolio_wonderstories_1.png',
+        'assets/images/project-images/portfolio_wonderstories_2.png',
+        'assets/images/project-images/portfolio_wonderstories_3.png'
+      ],
       featured: true,
       category: 'mobile',
-      year: 2024
+      year: 2024,
+      highlights: [
+        'Über 1.000 aktive Nutzer',
+        'Kontinuierlich steigendes Engagement',
+        'Verfügbar im App Store & Google Play',
+        'Innovative Audio-to-Audio KI-Technologie'
+      ]
     },
     {
       id: '4',
-      title: 'CI/CD Pipeline Infrastructure',
-      shortDescription: 'Automatisierte Deployment-Pipeline für Enterprise',
-      description: 'Komplette CI/CD Infrastructure mit automatisierten Tests, Code-Quality-Checks, Container-Orchestrierung und Zero-Downtime Deployments.',
-      technologies: ['Jenkins', 'Docker', 'Kubernetes', 'Terraform', 'AWS', 'Prometheus'],
-      imageUrl: 'https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=800',
-      featured: false,
-      category: 'devops',
-      year: 2024
+      title: 'FSH Service',
+      shortDescription: 'CRM-System mit DATEV, Banking, Stripe & DocuSign Integration',
+      description: 'Implementierung eines umfassenden CRM-Systems für FSH Service mit nahtloser Integration verschiedener Business-Tools. Das System verbindet DATEV für Buchhaltung, Online-Banking für Finanztransaktionen, Stripe als Payment Provider und DocuSign für digitale Vertragsunterzeichnung in einer einheitlichen Plattform.',
+      technologies: ['Angular', 'Node.js', 'DATEV API', 'Stripe', 'DocuSign API', 'Banking APIs'],
+      imageUrl: 'assets/images/project-images/portfolio_fsh_1.png',
+      gallery: [
+        'assets/images/project-images/portfolio_fsh_1.png',
+        'assets/images/project-images/portfolio_fsh_2.png',
+        'assets/images/project-images/portfolio_fsh_3.png'
+      ],
+      featured: true,
+      category: 'fullstack',
+      year: 2023,
+      highlights: [
+        'Optimierte Geschäftsprozesse',
+        'Digitale Vertragsunterzeichnung via DocuSign',
+        'Nahtlose DATEV-Integration',
+        'Automatisierte Zahlungsabwicklung'
+      ]
     },
     {
       id: '5',
-      title: 'API Gateway Service',
-      shortDescription: 'Hochverfügbarer API Gateway mit Rate Limiting',
-      description: 'Zentraler API Gateway mit Authentifizierung, Rate Limiting, Request/Response Transformation und umfassender Dokumentation via OpenAPI.',
-      technologies: ['Go', 'gRPC', 'Redis', 'PostgreSQL', 'Docker'],
-      imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800',
-      githubUrl: 'https://github.com',
+      title: 'Hide and Grow',
+      shortDescription: 'Innovative Plattform für nachhaltiges Wachstum und Entwicklung',
+      description: 'Entwicklung einer modernen Webanwendung für Hide and Grow. Die Plattform bietet umfassende Funktionen für Nutzer, die nachhaltiges persönliches und berufliches Wachstum anstreben. Mit intuitiver Benutzeroberfläche und durchdachter User Experience.',
+      technologies: ['Angular', 'TypeScript', 'Node.js', 'MongoDB', 'REST API'],
+      imageUrl: 'assets/images/project-images/portfolio_hideandgrow_1.png',
+      gallery: [
+        'assets/images/project-images/portfolio_hideandgrow_1.png',
+        'assets/images/project-images/portfolio_hideandgrow_2.png',
+        'assets/images/project-images/portfolio_hideandgrow_3.png',
+        'assets/images/project-images/portfolio_hideandgrow_4.png',
+        'assets/images/project-images/portfolio_hideandgrow_5.png'
+      ],
       featured: false,
-      category: 'backend',
-      year: 2024
-    },
-    {
-      id: '6',
-      title: 'Healthcare Management System',
-      shortDescription: 'Digitales Patientenmanagement für Kliniken',
-      description: 'Umfassendes System für Patientenverwaltung, Terminplanung, elektronische Patientenakten und Abrechnungsintegration. HIPAA-konform.',
-      technologies: ['Angular', 'Java', 'Spring Boot', 'PostgreSQL', 'Elasticsearch'],
-      imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800',
-      liveUrl: 'https://example.com',
-      featured: false,
-      category: 'fullstack',
-      year: 2023
+      category: 'web',
+      year: 2023,
+      highlights: [
+        'Moderne, intuitive Benutzeroberfläche',
+        'Responsive Design für alle Geräte',
+        'Durchdachte User Experience'
+      ]
     }
   ];
 
