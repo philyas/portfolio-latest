@@ -41,8 +41,9 @@ export class ProjectService implements IProjectService {
       shortDescription: 'Upload & Analyse von Stationsdateien mit automatisiertem Compliance-Export',
       description: 'Webanwendung für Upload und Analyse von Stationsdateien aus verschiedenen Bereichen der Romed Kliniken. Das System ermöglicht automatisierte Exporte für gesetzliche Meldungen (PPUG, PPBV) und sichert damit die Compliance. Durch die Automatisierung wurde der Verwaltungsaufwand um ca. 50% reduziert.',
       technologies: ['Angular', 'Node.js', 'PostgreSQL', 'Express', 'PDF Generation', 'Excel Export'],
-      imageUrl: 'assets/images/project-images/portfolio_romed_1.png',
+      imageUrl: 'assets/images/project-images/portfolio_romed_4.png',
       gallery: [
+        'assets/images/project-images/portfolio_romed_4.png',
         'assets/images/project-images/portfolio_romed_1.png',
         'assets/images/project-images/portfolio_romed_2.png',
         'assets/images/project-images/portfolio_romed_3.png'
