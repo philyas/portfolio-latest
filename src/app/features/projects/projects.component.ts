@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, HostListener } from '@angular/core';
+import { Component, inject, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProjectService } from '../../core/services';
 import { Project, ProjectCategory } from '../../core/models';
@@ -8,9 +8,9 @@ import { Project, ProjectCategory } from '../../core/models';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="projects" class="projects">
+    <section id="projects" class="projects" #projectsSection>
       <div class="container">
-        <div class="section-header">
+        <div class="section-header" [class.animate-in]="isVisible()" [style.animation-delay]="'0.1s'">
           <span class="section-label">Portfolio</span>
           <h2 class="section-title">Ausgewählte Projekte</h2>
           <p class="section-subtitle">
@@ -18,7 +18,7 @@ import { Project, ProjectCategory } from '../../core/models';
           </p>
         </div>
         
-        <div class="filter-tabs">
+        <div class="filter-tabs" [class.animate-in]="isVisible()" [style.animation-delay]="'0.2s'">
           <button 
             class="filter-btn" 
             [class.active]="activeFilter() === null"
@@ -35,9 +35,9 @@ import { Project, ProjectCategory } from '../../core/models';
           }
         </div>
         
-        <div class="projects-grid">
-          @for (project of filteredProjects(); track project.id) {
-            <article class="project-card" [class.featured]="project.featured" (click)="openProjectDetail(project)">
+        <div class="projects-grid" [class.animate-in]="isVisible()" [style.animation-delay]="'0.3s'">
+          @for (project of filteredProjects(); track project.id; let i = $index) {
+            <article class="project-card" [class.featured]="project.featured" [class.animate-in]="isVisible()" [style.animation-delay]="(0.4 + i * 0.1) + 's'" (click)="openProjectDetail(project)">
               <div class="project-image">
                 <img [src]="project.imageUrl" [alt]="project.title" loading="lazy">
                 <div class="project-overlay">
@@ -201,6 +201,23 @@ import { Project, ProjectCategory } from '../../core/models';
     .section-header {
       text-align: center;
       margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .animate-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     .section-label {
@@ -234,6 +251,8 @@ import { Project, ProjectCategory } from '../../core/models';
       gap: 0.5rem;
       margin-bottom: 4rem;
       flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(30px);
     }
     
     .filter-btn {
@@ -263,6 +282,8 @@ import { Project, ProjectCategory } from '../../core/models';
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
       gap: 2rem;
+      opacity: 0;
+      transform: translateY(30px);
     }
     
     .project-card {
@@ -272,6 +293,8 @@ import { Project, ProjectCategory } from '../../core/models';
       overflow: hidden;
       transition: all 0.4s ease;
       cursor: pointer;
+      opacity: 0;
+      transform: translateY(30px);
       
       &:hover {
         transform: translateY(-8px);
@@ -776,8 +799,11 @@ import { Project, ProjectCategory } from '../../core/models';
     }
   `]
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
   private projectService = inject(ProjectService);
+  @ViewChild('projectsSection', { static: true }) projectsSection!: ElementRef;
+  isVisible = signal(false);
+  private observer?: IntersectionObserver;
   
   projects = signal<Project[]>([]);
   filteredProjects = signal<Project[]>([]);
@@ -798,6 +824,44 @@ export class ProjectsComponent implements OnInit {
       this.projects.set(projects);
       this.filteredProjects.set(projects);
     });
+  }
+  
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const element = this.projectsSection?.nativeElement;
+      if (!element) return;
+
+      const rect = element.getBoundingClientRect();
+      const isVisibleNow = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (isVisibleNow) {
+        this.isVisible.set(true);
+        return;
+      }
+
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.isVisible.set(true);
+              this.observer?.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.05,
+          rootMargin: '0px 0px 0px 0px'
+        }
+      );
+
+      this.observer.observe(element);
+    }, 100);
+  }
+  
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   }
   
   filterProjects(category: ProjectCategory | null): void {

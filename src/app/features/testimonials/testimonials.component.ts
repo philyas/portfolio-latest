@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TestimonialService } from '../../core/services';
 import { Testimonial } from '../../core/models';
@@ -8,9 +8,9 @@ import { Testimonial } from '../../core/models';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="testimonials" class="testimonials">
+    <section id="testimonials" class="testimonials" #testimonialsSection>
       <div class="container">
-        <div class="section-header">
+        <div class="section-header" [class.animate-in]="isVisible()" [style.animation-delay]="'0.1s'">
           <span class="section-label">Referenzen</span>
           <h2 class="section-title">Was Kunden sagen</h2>
           <p class="section-subtitle">
@@ -18,9 +18,9 @@ import { Testimonial } from '../../core/models';
           </p>
         </div>
         
-        <div class="testimonials-grid">
-          @for (testimonial of testimonials(); track testimonial.id) {
-            <article class="testimonial-card">
+        <div class="testimonials-grid" [class.animate-in]="isVisible()" [style.animation-delay]="'0.2s'">
+          @for (testimonial of testimonials(); track testimonial.id; let i = $index) {
+            <article class="testimonial-card" [class.animate-in]="isVisible()" [style.animation-delay]="(0.3 + i * 0.1) + 's'">
               <div class="quote-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.2">
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
@@ -80,6 +80,23 @@ import { Testimonial } from '../../core/models';
     .section-header {
       text-align: center;
       margin-bottom: 5rem;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .animate-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     .section-label {
@@ -111,6 +128,8 @@ import { Testimonial } from '../../core/models';
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 2rem;
+      opacity: 0;
+      transform: translateY(30px);
     }
     
     .testimonial-card {
@@ -121,12 +140,8 @@ import { Testimonial } from '../../core/models';
       transition: all 0.4s ease;
       display: flex;
       flex-direction: column;
-      
-      &:hover {
-        transform: translateY(-4px);
-        border-color: rgba(212, 175, 55, 0.2);
-        background: rgba(255, 255, 255, 0.03);
-      }
+      opacity: 0;
+      transform: translateY(30px);
     }
     
     .quote-icon {
@@ -220,8 +235,11 @@ import { Testimonial } from '../../core/models';
     }
   `]
 })
-export class TestimonialsComponent implements OnInit {
+export class TestimonialsComponent implements OnInit, AfterViewInit, OnDestroy {
   private testimonialService = inject(TestimonialService);
+  @ViewChild('testimonialsSection', { static: true }) testimonialsSection!: ElementRef;
+  isVisible = signal(false);
+  private observer?: IntersectionObserver;
   
   testimonials = signal<Testimonial[]>([]);
   
@@ -229,6 +247,44 @@ export class TestimonialsComponent implements OnInit {
     this.testimonialService.getAll().subscribe(testimonials => {
       this.testimonials.set(testimonials);
     });
+  }
+  
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const element = this.testimonialsSection?.nativeElement;
+      if (!element) return;
+
+      const rect = element.getBoundingClientRect();
+      const isVisibleNow = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (isVisibleNow) {
+        this.isVisible.set(true);
+        return;
+      }
+
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.isVisible.set(true);
+              this.observer?.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.05,
+          rootMargin: '0px 0px 0px 0px'
+        }
+      );
+
+      this.observer.observe(element);
+    }, 100);
+  }
+  
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   }
   
   getInitials(name: string): string {

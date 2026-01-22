@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -14,10 +14,10 @@ interface ContactForm {
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <section id="contact" class="contact">
+    <section id="contact" class="contact" #contactSection>
       <div class="container">
         <div class="contact-grid">
-          <div class="contact-info">
+          <div class="contact-info" [class.animate-in]="isVisible()" [style.animation-delay]="'0.1s'">
             <span class="section-label">Kontakt</span>
             <h2 class="section-title">Lassen Sie uns zusammenarbeiten</h2>
             <p class="contact-description">
@@ -26,7 +26,7 @@ interface ContactForm {
             </p>
             
             <div class="contact-details">
-              <a href="mailto:philyasmalik@gmail.com" class="contact-item">
+              <a href="mailto:philyasmalik@gmail.com" class="contact-item" [class.animate-in]="isVisible()" [style.animation-delay]="'0.2s'">
                 <div class="contact-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -39,7 +39,7 @@ interface ContactForm {
                 </div>
               </a>
               
-              <a href="tel:+4917661923495" class="contact-item">
+              <a href="tel:+4917661923495" class="contact-item" [class.animate-in]="isVisible()" [style.animation-delay]="'0.3s'">
                 <div class="contact-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
@@ -51,7 +51,7 @@ interface ContactForm {
                 </div>
               </a>
               
-              <div class="contact-item">
+              <div class="contact-item" [class.animate-in]="isVisible()" [style.animation-delay]="'0.4s'">
                 <div class="contact-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -65,7 +65,7 @@ interface ContactForm {
               </div>
             </div>
             
-            <div class="social-links">
+            <div class="social-links" [class.animate-in]="isVisible()" [style.animation-delay]="'0.5s'">
               <a href="https://github.com/philyas" target="_blank" class="social-link" title="GitHub">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
@@ -81,7 +81,7 @@ interface ContactForm {
             </div>
           </div>
           
-          <div class="contact-form-wrapper">
+          <div class="contact-form-wrapper" [class.animate-in]="isVisible()" [style.animation-delay]="'0.6s'">
             <form class="contact-form" (ngSubmit)="submitForm()">
               <div class="form-group">
                 <label for="name">Name</label>
@@ -182,6 +182,41 @@ interface ContactForm {
       grid-template-columns: 1fr 1fr;
       gap: 6rem;
       align-items: start;
+    }
+    
+    .animate-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .contact-info {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .contact-item {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .social-links {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .contact-form-wrapper {
+      opacity: 0;
+      transform: translateY(30px);
     }
     
     .section-label {
@@ -410,7 +445,11 @@ interface ContactForm {
     }
   `]
 })
-export class ContactComponent {
+export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('contactSection', { static: true }) contactSection!: ElementRef;
+  isVisible = signal(false);
+  private observer?: IntersectionObserver;
+  
   form: ContactForm = {
     name: '',
     email: '',
@@ -420,6 +459,48 @@ export class ContactComponent {
   
   isSubmitting = signal(false);
   submitSuccess = signal(false);
+  
+  ngOnInit(): void {
+    // Don't set isVisible here - let the observer handle it
+  }
+  
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const element = this.contactSection?.nativeElement;
+      if (!element) return;
+
+      const rect = element.getBoundingClientRect();
+      const isVisibleNow = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (isVisibleNow) {
+        this.isVisible.set(true);
+        return;
+      }
+
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.isVisible.set(true);
+              this.observer?.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.05,
+          rootMargin: '0px 0px 0px 0px'
+        }
+      );
+
+      this.observer.observe(element);
+    }, 100);
+  }
+  
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
   
   submitForm(): void {
     this.isSubmitting.set(true);

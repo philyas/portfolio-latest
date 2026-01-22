@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,15 +6,15 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="about" class="about">
+    <section id="about" class="about" #aboutSection>
       <div class="container">
-        <div class="section-header">
+        <div class="section-header" [class.animate-in]="isVisible()" [style.animation-delay]="'0.1s'">
           <span class="section-label">Über mich</span>
           <h2 class="section-title">Entwickler aus Leidenschaft</h2>
         </div>
         
         <div class="about-content">
-          <div class="about-text">
+          <div class="about-text" [class.animate-in]="isVisible()" [style.animation-delay]="'0.2s'">
             <p class="lead">
               Als Full-Stack Developer mit über 4 Jahren Erfahrung verbinde ich 
               technische Exzellenz mit einem Auge für Design und Benutzerfreundlichkeit.
@@ -31,7 +31,7 @@ import { CommonModule } from '@angular/common';
             </p>
             
             <div class="about-highlights">
-              <div class="highlight-item">
+              <div class="highlight-item" [class.animate-in]="isVisible()" [style.animation-delay]="'0.3s'">
                 <div class="highlight-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
@@ -45,7 +45,7 @@ import { CommonModule } from '@angular/common';
                 </div>
               </div>
               
-              <div class="highlight-item">
+              <div class="highlight-item" [class.animate-in]="isVisible()" [style.animation-delay]="'0.4s'">
                 <div class="highlight-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -58,7 +58,7 @@ import { CommonModule } from '@angular/common';
                 </div>
               </div>
               
-              <div class="highlight-item">
+              <div class="highlight-item" [class.animate-in]="isVisible()" [style.animation-delay]="'0.5s'">
                 <div class="highlight-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 20V10"></path>
@@ -74,7 +74,7 @@ import { CommonModule } from '@angular/common';
             </div>
           </div>
           
-          <div class="about-image">
+          <div class="about-image" [class.animate-in]="isVisible()" [style.animation-delay]="'0.6s'">
             <div class="image-container">
               <div class="image-frame">
                 <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600" alt="Arbeitsplatz">
@@ -114,6 +114,23 @@ import { CommonModule } from '@angular/common';
     .section-header {
       text-align: center;
       margin-bottom: 5rem;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .animate-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     .section-label {
@@ -138,6 +155,16 @@ import { CommonModule } from '@angular/common';
       grid-template-columns: 1fr 1fr;
       gap: 6rem;
       align-items: center;
+    }
+    
+    .about-text {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .about-image {
+      opacity: 0;
+      transform: translateY(30px);
     }
     
     .about-text {
@@ -170,13 +197,8 @@ import { CommonModule } from '@angular/common';
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 12px;
-      transition: all 0.3s ease;
-      
-      &:hover {
-        background: rgba(255, 255, 255, 0.04);
-        border-color: rgba(212, 175, 55, 0.2);
-        transform: translateX(8px);
-      }
+      opacity: 0;
+      transform: translateY(20px);
       
       h4 {
         font-size: 1rem;
@@ -312,4 +334,52 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class AboutComponent {}
+export class AboutComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('aboutSection', { static: true }) aboutSection!: ElementRef;
+  isVisible = signal(false);
+  private observer?: IntersectionObserver;
+
+  ngOnInit(): void {
+    // Don't set isVisible here - let the observer handle it
+  }
+
+  ngAfterViewInit(): void {
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
+      const element = this.aboutSection?.nativeElement;
+      if (!element) return;
+
+      // Check if element is already visible
+      const rect = element.getBoundingClientRect();
+      const isVisibleNow = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (isVisibleNow) {
+        this.isVisible.set(true);
+        return;
+      }
+
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.isVisible.set(true);
+              this.observer?.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.05,
+          rootMargin: '0px 0px 0px 0px'
+        }
+      );
+
+      this.observer.observe(element);
+    }, 100);
+  }
+
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
+}

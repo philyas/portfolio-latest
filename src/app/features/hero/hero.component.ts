@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section class="hero">
+    <section class="hero" #heroSection>
       <div class="hero-background">
         <div class="gradient-orb orb-1"></div>
         <div class="gradient-orb orb-2"></div>
@@ -14,19 +14,19 @@ import { CommonModule } from '@angular/common';
       </div>
       
       <div class="hero-content">
-        <div class="hero-text">
-          <span class="hero-label">Software Engineer</span>
-          <h1 class="hero-title">
+        <div class="hero-text" [class.animate-in]="isVisible()">
+          <span class="hero-label" [class.animate-in]="isVisible()" [style.animation-delay]="'0.1s'">Software Engineer</span>
+          <h1 class="hero-title" [class.animate-in]="isVisible()" [style.animation-delay]="'0.2s'">
             Ich entwickle
             <span class="highlight">digitale Erlebnisse</span>
             die begeistern.
           </h1>
-          <p class="hero-description">
+          <p class="hero-description" [class.animate-in]="isVisible()" [style.animation-delay]="'0.3s'">
             Full-Stack Developer mit Fokus auf skalierbare Web-Applikationen, 
             moderne Architekturen und exzellente User Experience. Über 4 Jahre 
             Erfahrung in der Entwicklung von Enterprise-Lösungen.
           </p>
-          <div class="hero-cta">
+          <div class="hero-cta" [class.animate-in]="isVisible()" [style.animation-delay]="'0.4s'">
             <a href="#projects" class="btn btn-primary">
               <span>Projekte ansehen</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -38,22 +38,22 @@ import { CommonModule } from '@angular/common';
           </div>
         </div>
         
-        <div class="hero-visual">
+        <div class="hero-visual" [class.animate-in]="isVisible()" [style.animation-delay]="'0.5s'">
           <div class="profile-card">
             <div class="profile-image">
               <img src="assets/images/profilepicture.png" alt="Profilbild" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop'">
             </div>
             <div class="profile-stats">
-              <div class="stat">
-                <span class="stat-value">4+</span>
+              <div class="stat" [class.animate-in]="isVisible()" [style.animation-delay]="'0.6s'">
+                <span class="stat-value" [attr.data-count]="4">4+</span>
                 <span class="stat-label">Jahre Erfahrung</span>
               </div>
-              <div class="stat">
-                <span class="stat-value">50+</span>
+              <div class="stat" [class.animate-in]="isVisible()" [style.animation-delay]="'0.7s'">
+                <span class="stat-value" [attr.data-count]="20">20+</span>
                 <span class="stat-label">Projekte</span>
               </div>
-              <div class="stat">
-                <span class="stat-value">20+</span>
+              <div class="stat" [class.animate-in]="isVisible()" [style.animation-delay]="'0.8s'">
+                <span class="stat-value" [attr.data-count]="20">20+</span>
                 <span class="stat-label">Zufriedene Kunden</span>
               </div>
             </div>
@@ -61,7 +61,7 @@ import { CommonModule } from '@angular/common';
         </div>
       </div>
       
-      <div class="scroll-indicator">
+      <div class="scroll-indicator" [class.animate-in]="isVisible()" [style.animation-delay]="'0.9s'">
         <span>Scroll</span>
         <div class="scroll-line"></div>
       </div>
@@ -115,6 +115,16 @@ import { CommonModule } from '@angular/common';
           linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
           linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
         background-size: 60px 60px;
+        animation: gridMove 20s linear infinite;
+      }
+    }
+    
+    @keyframes gridMove {
+      0% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(60px, 60px);
       }
     }
     
@@ -132,6 +142,22 @@ import { CommonModule } from '@angular/common';
       align-items: center;
       position: relative;
       z-index: 1;
+    }
+    
+    .animate-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     .hero-label {
@@ -162,6 +188,17 @@ import { CommonModule } from '@angular/common';
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        position: relative;
+        animation: shimmer 3s ease-in-out infinite;
+      }
+    }
+    
+    @keyframes shimmer {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
       }
     }
     
@@ -188,41 +225,28 @@ import { CommonModule } from '@angular/common';
       font-weight: 600;
       text-decoration: none;
       border-radius: 4px;
-      transition: all 0.3s ease;
       
       &-primary {
         background: var(--color-accent);
         color: var(--color-bg);
-        
-        svg {
-          transition: transform 0.3s ease;
-        }
-        
-        &:hover {
-          background: var(--color-accent-hover);
-          transform: translateY(-2px);
-          
-          svg {
-            transform: translateX(4px);
-          }
-        }
       }
       
       &-secondary {
         background: transparent;
         color: var(--color-text);
         border: 1px solid rgba(255, 255, 255, 0.2);
-        
-        &:hover {
-          border-color: var(--color-accent);
-          color: var(--color-accent);
-        }
       }
     }
     
     .hero-visual {
       display: flex;
       justify-content: center;
+      transform: translateY(20px);
+      transition: transform 0.8s ease-out;
+      
+      &.animate-in {
+        transform: translateY(0);
+      }
     }
     
     .profile-card {
@@ -286,16 +310,10 @@ import { CommonModule } from '@angular/common';
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center center; /* Anpassbar: z.B. "top center", "center top", "left center", etc. */
+        object-position: center center;
         border-radius: 20px;
         filter: grayscale(10%) contrast(1.05) brightness(1.02);
-        transition: all 0.5s ease;
         margin-top: 7px;
-        
-        &:hover {
-          filter: grayscale(0%) contrast(1.1) brightness(1.05);
-          transform: scale(1.02);
-        }
       }
     }
     
@@ -314,12 +332,12 @@ import { CommonModule } from '@angular/common';
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
       
-      &:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(212, 175, 55, 0.3);
-        transform: translateY(-4px);
+      &.animate-in {
+        opacity: 1;
+        transform: translateY(0);
       }
       
       &-value {
@@ -352,6 +370,12 @@ import { CommonModule } from '@angular/common';
       font-size: 0.75rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      opacity: 0;
+      
+      &.animate-in {
+        opacity: 1;
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
       
       .scroll-line {
         width: 1px;
@@ -362,8 +386,14 @@ import { CommonModule } from '@angular/common';
     }
     
     @keyframes scrollPulse {
-      0%, 100% { opacity: 1; transform: scaleY(1); }
-      50% { opacity: 0.5; transform: scaleY(0.8); }
+      0%, 100% { 
+        opacity: 1; 
+        transform: scaleY(1); 
+      }
+      50% { 
+        opacity: 0.4; 
+        transform: scaleY(0.6); 
+      }
     }
     
     @media (max-width: 1024px) {
@@ -412,4 +442,42 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class HeroComponent {}
+export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('heroSection', { static: true }) heroSection!: ElementRef;
+  isVisible = signal(false);
+  private observer?: IntersectionObserver;
+
+  ngOnInit(): void {
+    // Trigger initial animation after component initialization
+    setTimeout(() => {
+      this.isVisible.set(true);
+    }, 100);
+  }
+
+  ngAfterViewInit(): void {
+    // Hero section animates immediately on load, but also observe for re-entry
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.isVisible.set(true);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    if (this.heroSection?.nativeElement) {
+      this.observer.observe(this.heroSection.nativeElement);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
+}
