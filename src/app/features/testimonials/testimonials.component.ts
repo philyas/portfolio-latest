@@ -186,6 +186,7 @@ import { Testimonial } from '../../core/models';
         font-weight: 600;
         color: var(--color-text);
         margin-bottom: 0.15rem;
+        white-space: nowrap;
       }
       
       .author-role {

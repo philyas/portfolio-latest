@@ -23,7 +23,7 @@ import { CommonModule } from '@angular/common';
           </h1>
           <p class="hero-description">
             Full-Stack Developer mit Fokus auf skalierbare Web-Applikationen, 
-            moderne Architekturen und exzellente User Experience. Über 8 Jahre 
+            moderne Architekturen und exzellente User Experience. Über 4 Jahre 
             Erfahrung in der Entwicklung von Enterprise-Lösungen.
           </p>
           <div class="hero-cta">
@@ -45,7 +45,7 @@ import { CommonModule } from '@angular/common';
             </div>
             <div class="profile-stats">
               <div class="stat">
-                <span class="stat-value">8+</span>
+                <span class="stat-value">4+</span>
                 <span class="stat-label">Jahre Erfahrung</span>
               </div>
               <div class="stat">
@@ -53,7 +53,7 @@ import { CommonModule } from '@angular/common';
                 <span class="stat-label">Projekte</span>
               </div>
               <div class="stat">
-                <span class="stat-value">30+</span>
+                <span class="stat-value">20+</span>
                 <span class="stat-label">Zufriedene Kunden</span>
               </div>
             </div>

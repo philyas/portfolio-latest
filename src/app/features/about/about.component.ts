@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
         <div class="about-content">
           <div class="about-text">
             <p class="lead">
-              Als Full-Stack Developer mit über 8 Jahren Erfahrung verbinde ich 
+              Als Full-Stack Developer mit über 4 Jahren Erfahrung verbinde ich 
               technische Exzellenz mit einem Auge für Design und Benutzerfreundlichkeit.
             </p>
             <p>
@@ -80,7 +80,7 @@ import { CommonModule } from '@angular/common';
                 <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600" alt="Arbeitsplatz">
               </div>
               <div class="experience-badge">
-                <span class="badge-number">8+</span>
+                <span class="badge-number">4+</span>
                 <span class="badge-text">Jahre<br>Erfahrung</span>
               </div>
             </div>

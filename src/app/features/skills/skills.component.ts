@@ -250,8 +250,8 @@ export class SkillsComponent implements OnInit {
   skillGroups = signal<SkillGroup[]>([]);
   
   technologies = [
-    'Angular', 'TypeScript', 'React', 'Node.js', 'Python', 'PostgreSQL', 
-    'MongoDB', 'Docker', 'Kubernetes', 'AWS', 'Git', 'GraphQL', 'REST APIs',
+    'Angular', 'TypeScript', 'React', 'React Native', 'Node.js', 'Python', 'PostgreSQL', 
+    'MongoDB', 'Oracle', 'MySQL', 'Docker', 'AWS', 'Git', 'GraphQL', 'REST APIs',
     'Microservices', 'CI/CD', 'TDD', 'Agile', 'Scrum'
   ];
   
