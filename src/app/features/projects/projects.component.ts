@@ -158,7 +158,7 @@ import { Project, ProjectCategory } from '../../core/models';
                       <polyline points="15 3 21 3 21 9"></polyline>
                       <line x1="10" y1="14" x2="21" y2="3"></line>
                     </svg>
-                    Live Demo
+                    {{ getLinkLabel(selectedProject()!) }}
                   </a>
                 }
                 @if (selectedProject()!.githubUrl) {
@@ -878,6 +878,18 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
   
   getCategoryLabel(category: ProjectCategory): string {
     return this.categories.find(c => c.value === category)?.label || category;
+  }
+  
+  getLinkLabel(project: Project): string {
+    if (!project.liveUrl) return 'Zur Anwendung';
+    
+    // Check if it's an app link (onelink.me or mobile category)
+    if (project.category === 'mobile' || project.liveUrl.includes('onelink.me')) {
+      return 'Zur App';
+    }
+    
+    // Otherwise it's a website
+    return 'Zur Webseite';
   }
   
   openProjectDetail(project: Project): void {

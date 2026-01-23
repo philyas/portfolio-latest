@@ -28,6 +28,7 @@ export class ProjectService implements IProjectService {
       featured: true,
       category: 'fullstack',
       year: 2024,
+      liveUrl: 'https://gastro-depot-worms.de',
       highlights: [
         'Schnellere Lieferungen durch automatisierte Prozesse',
         'Optimierte Lieferwege durch intelligente Routenplanung',
@@ -73,6 +74,7 @@ export class ProjectService implements IProjectService {
       featured: true,
       category: 'mobile',
       year: 2024,
+      liveUrl: 'https://wonderstories.onelink.me/3ltl/duwq7cx1',
       highlights: [
         'Über 1.000 aktive Nutzer',
         'Kontinuierlich steigendes Engagement',
@@ -95,6 +97,7 @@ export class ProjectService implements IProjectService {
       featured: true,
       category: 'fullstack',
       year: 2023,
+      liveUrl: 'https://fsh-service.vercel.app',
       highlights: [
         'Optimierte Geschäftsprozesse',
         'Digitale Vertragsunterzeichnung via DocuSign',
@@ -119,6 +122,7 @@ export class ProjectService implements IProjectService {
       featured: false,
       category: 'web',
       year: 2023,
+      liveUrl: 'https://hideandgrow.vercel.app',
       highlights: [
         'Moderne, intuitive Benutzeroberfläche',
         'Responsive Design für alle Geräte',
