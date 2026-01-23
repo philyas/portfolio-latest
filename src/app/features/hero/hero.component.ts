@@ -22,9 +22,11 @@ import { CommonModule } from '@angular/common';
             die begeistern.
           </h1>
           <p class="hero-description" [class.animate-in]="isVisible()" [style.animation-delay]="'0.3s'">
-            Full-Stack Developer mit Fokus auf skalierbare Web-Applikationen, 
-            moderne Architekturen und exzellente User Experience. Über 4 Jahre 
-            Erfahrung in der Entwicklung von Enterprise-Lösungen.
+            Phi Nguyen – Full-Stack Developer mit über 4 Jahren Erfahrung in der 
+            Entwicklung skalierbarer Enterprise-Lösungen. Ich entwickle Web-, App- und 
+            KI-Lösungen mit modernen Architekturen, hoher Performance und exzellenter 
+            User Experience. Mit einem Fokus auf Clean Code und bewährte Praktiken 
+            schaffe ich Lösungen, die sowohl technisch exzellent als auch benutzerfreundlich sind.
           </p>
           <div class="hero-cta" [class.animate-in]="isVisible()" [style.animation-delay]="'0.4s'">
             <a href="#projects" class="btn btn-primary">
